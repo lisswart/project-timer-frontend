@@ -43,7 +43,7 @@ function App() {
     );
   });
 
-  const labelList = labels.map(label => <p key={label.id}>{label.name}</p>);
+  const labelList = labels.map(label => <p key={label.id}>{label.id} - {label.name}</p>);
 
   return (
     <div className="App">
