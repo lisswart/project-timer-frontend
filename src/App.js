@@ -1,23 +1,54 @@
-import logo from './logo.svg';
 import './App.css';
+import { useState, useEffect } from 'react';
 
 function App() {
+  const baseURL = "https://young-dusk-40321.herokuapp.com/";
+  const [ projects, setProjects ] = useState([]);
+  const [ labels, setLabels ] = useState([]);
+
+  useEffect(() => {
+    fetch(`${baseURL}projects`)
+      .then(r => r.json())
+      .then(promisedProj => {
+        console.log(promisedProj);
+        setProjects(promisedProj);
+      })
+  }, []);
+
+  useEffect(() => {
+    fetch(`${baseURL}labels`)
+      .then(r => r.json())
+      .then(promisedLabels => {
+        console.log(promisedLabels);
+        setLabels(promisedLabels);
+      })
+  }, []);
+
+  const projList = projects.map(project => {
+    return (
+      <div key={project.id}>
+        {project.name} - {project.status} - 
+        {
+          project.timers !== []
+          ? project.timers.map(timer => {
+              return (
+                <div key={timer.id}>
+                    {timer.length} minutes - label: {timer.label_id}
+                </div>
+              );
+            })
+          : <>0 minute</>
+        }
+      </div>
+    );
+  });
+
+  const labelList = labels.map(label => <p key={label.id}>{label.name}</p>);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {projList}
+      {labelList}
     </div>
   );
 }
