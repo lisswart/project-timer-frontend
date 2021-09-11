@@ -26,7 +26,7 @@ function App() {
 
   const projList = projects.map(project => {
     return (
-      <div key={project.id}>
+      <h2 key={project.id}>
         {project.name} - {project.status} - 
         {
           project.timers !== []
@@ -39,7 +39,7 @@ function App() {
             })
           : <>0 minute</>
         }
-      </div>
+      </h2>
     );
   });
 
